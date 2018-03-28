@@ -3,6 +3,8 @@ package prop_file;
 import java.io.*;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 public class DriverTester {
 	static Properties prop = new Properties();
 	static File fileTest = new File("C:\\Users\\vv3383my\\Documents\\GitHub\\Resources\\Java\\Project Files\\src\\prop_file\\prop_test.ini");
@@ -11,16 +13,13 @@ public class DriverTester {
 		
 		fileLoadProperties(prop, fileTest);
 		
-		String propName = "version";
-		System.out.println(propName + "=" + prop.getProperty(propName, "unknown version"));
-		propName = "appName";
-		System.out.println(propName + "=" + prop.getProperty(propName, "unknown name"));
-		propName = "datePublished";
-		System.out.println(propName + "=" + prop.getProperty(propName, "unknown date"));
+		prop.list(System.out);
+		
+		fileLoadProperties(prop, new File("C:\\Users\\vv3383my\\Documents\\GitHub\\Resources\\Java\\Project Files\\src\\prop_file\\prop_test_2.ini"));
 		
 		prop.list(System.out);
 		
-		//fileSaveProperties(prop, fileTest);
+		//fileSaveProperties(prop, new File("C:\\Users\\vv3383my\\Documents\\GitHub\\Resources\\Java\\Project Files\\src\\prop_file\\prop_out.ini"));
 	}
 	public static void fileSaveProperties(Properties p, File f) throws IOException{
 		try {
@@ -28,7 +27,7 @@ public class DriverTester {
 			p.store(out, "--No Comment--");
 			out.close();
 		} catch (FileNotFoundException e) {
-			System.out.println(e);
+			showError(e.getMessage());
 		}
 	}
 	public static void fileLoadProperties(Properties p, File f) throws IOException {
@@ -37,7 +36,8 @@ public class DriverTester {
 			p.load(in);
 			in.close();
 		} catch (FileNotFoundException e) {
-			System.out.println(e);
+			showError(e.getMessage());
 		}
 	}
+	public static void showError(String str) {JOptionPane.showMessageDialog(null, str);}
 }
