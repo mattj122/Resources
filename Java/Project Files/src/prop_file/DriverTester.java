@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 public class DriverTester {
 	static Properties prop = new Properties();
-	static File fileTest = new File("C:\\Users\\vv3383my\\Documents\\GitHub\\Resources\\Java\\Project Files\\src\\prop_file\\prop_test.ini");
+	static File fileTest = new File("C:\\Users\\Matt\\Documents\\GitHub\\Resources\\Java\\Project Files\\src\\prop_file\\prop_test.ini");
 	public static void main(String[] args) throws IOException {
 		
 		
