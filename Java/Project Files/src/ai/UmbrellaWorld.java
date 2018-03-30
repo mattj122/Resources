@@ -78,6 +78,8 @@ public class UmbrellaWorld {
 		}
 	}
 	private static void sensorModel() {
+		double tempT = 0 + probRainT;
+		double tempF = 0 + probRainF;
 		System.out.println("Sensor model for day " + day + " given umbrella is " + (umbrella));
 		//displays equation
 		System.out.println("P(R" + day + "|u" + day + ") \t = ALPHA{P(u" + day + "|R"+ day +")P(R"+ day + ")}");
@@ -93,8 +95,8 @@ public class UmbrellaWorld {
 		}
 		//the ALPHA{} signifies what needs to be normalized still
 		System.out.println("\t = ALPHA{<" + df.format(a) + " * " + df.format(probRainT) + ", " + df.format(b) + " * " + df.format(probRainF) + ">}");
-		probRainT = probRainT * a;
-		probRainF = probRainF * b;
+		probRainT = tempT * a;
+		probRainF = tempF * b;
 		//values before normalization
 		System.out.println("\t = ALPHA{<" + df.format(probRainT) + ", " + df.format(probRainF) + ">}");
 		//values are overwritten with the formula
@@ -105,12 +107,17 @@ public class UmbrellaWorld {
 	}
 	private static void transitionModel() {
 		day++;
+		double tempT = 0 + probRainT;
+		double tempF = 0 + probRainF;
 		System.out.println("Transition model for day " + day + " given day " + (day-1));
 		System.out.println("P(R" + day + ") \t = P(R" + day + "|r"+ (day-1) +"=true)P(r"+ (day-1) +"=true) + P(R" + day + "|r"+ (day-1) +"=false)P(r"+ (day-1) +"=false)");
 		System.out.println("\t = <" + df.format(tranT) + ", " + df.format(tranF) + "> * " + df.format(probRainT) + " + " + " <" + df.format(tranF) 
 			+ ", " + df.format(tranT) + "> * " + df.format(probRainF));
-		probRainT = (tranT * probRainT) + (tranF * probRainF);
-		probRainF = (tranF * probRainT) + (tranT * probRainF);
+		
+		probRainT = (tranT * tempT) + (tranF * tempF);
+		probRainF = (tranF * tempT) + (tranT * tempF);
+		probRainT = normalize(probRainT, probRainF);
+		probRainF = 1.0 - probRainT;
 		System.out.println("\t = <" + df.format(probRainT) + ", " + df.format(probRainF) + ">");
 		System.out.println();
 	}
